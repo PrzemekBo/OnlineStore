@@ -1,12 +1,14 @@
 package com.capgemini.dao;
 
+
 import com.capgemini.entity.CustomerEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerDao extends CrudRepository {
+@Repository
+public interface CustomerDao extends CrudRepository<CustomerEntity, Long> {
 
-
-
-
+    CustomerEntity findCustomerEntityById(Long id);
+    CustomerEntity deleteCustomerEntityById(Long id);
+ 
 }

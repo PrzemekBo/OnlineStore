@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class   AbstractEntity {
+public abstract class AbstractEntity {
 
     @Version
     @Column(columnDefinition = "bigint DEFAULT 0")
