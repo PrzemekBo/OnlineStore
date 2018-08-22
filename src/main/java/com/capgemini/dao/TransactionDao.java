@@ -1,7 +1,10 @@
 package com.capgemini.dao;
 
 import com.capgemini.entity.CustomerEntity;
+import com.capgemini.entity.TransactionEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface TransactionDao extends CrudRepository<CustomerEntity, Long> {
+@Repository
+public interface TransactionDao extends CrudRepository<TransactionEntity, Long> {
 }

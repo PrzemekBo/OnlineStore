@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class TransactionEntity {
+public class TransactionEntity extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

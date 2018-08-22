@@ -21,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Autowired
-    CustomerServiceImpl(CustomerDao customerDao){this.customerDao=customerDao;}
+    public CustomerServiceImpl(CustomerDao customerDao){this.customerDao=customerDao;}
 
 
     @Override
