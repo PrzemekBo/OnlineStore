@@ -93,16 +93,15 @@ public class CustomerServiceImplTest {
                 .build();
         CustomerDTO newCustomer = customerService.addCustomer(customer);
 
-
+        //when
         CustomerDTO cusumerToChangeAddress = customerService.findCustomerEntityById(newCustomer.getId());
         cusumerToChangeAddress.setAddress(address);
-        customerService.updateCustomer(cusumerToChangeAddress);
+       customerService.updateCustomer(cusumerToChangeAddress);
+
+        CustomerDTO customerDTO = customerService.findCustomerEntityById(cusumerToChangeAddress.getId());
 
         //then
-        assertThat(customerService
-                .findCustomerEntityById(cusumerToChangeAddress
-                .getId()).getAddress())
-                .isEqualTo(address);
+        assertThat(customerDTO.getAddress()).isEqualTo(address);
 
 
     }
@@ -124,11 +123,15 @@ public class CustomerServiceImplTest {
                 .build();
         CustomerDTO newCustomer = customerService.addCustomer(customer);
 
+
+        //when
         newCustomer.setAddress(address);
         int version= customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
         customerService.updateCustomer(newCustomer);
         int version2= customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
 
+
+        //then
         assertThat(version).isNotEqualTo(version2);
 
     }

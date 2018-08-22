@@ -9,4 +9,8 @@ public interface ProductService {
     ProductDTO findProductEntityById(Long id);
 
     ProductDTO addProduct(ProductDTO productDTO);
+
+    void removeProduct(Long id);
+
+    ProductDTO updateProduct(ProductDTO product);
 }

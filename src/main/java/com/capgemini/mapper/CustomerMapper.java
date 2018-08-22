@@ -36,9 +36,9 @@ public class CustomerMapper {
         customerDTO.setLastName(customerEntity.getLastName());
         customerDTO.setEmail(customerEntity.getEmail());
         customerDTO.setPhoneNumber(customerEntity.getPhoneNumber());
-        customerDTO.setAddress(customerDTO.getAddress());
-        customerDTO.setBirthDate(customerDTO.getBirthDate());
-        customerDTO.setVersion(customerDTO.getVersion());
+        customerDTO.setAddress(customerEntity.getAddress());
+        customerDTO.setBirthDate(customerEntity.getBirthDate());
+        customerDTO.setVersion(customerEntity.getVersion());
 
         if (customerEntity.getTransactions() != null) {
             customerDTO.setTransactions(customerEntity.getTransactions().stream().map(t->t.getId()).collect(Collectors.toList()));

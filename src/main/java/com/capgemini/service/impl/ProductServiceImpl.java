@@ -30,4 +30,16 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity=productDao.save(ProductMapper.toProductEntity(productDTO));
         return ProductMapper.toProductDTO(productEntity);
     }
+
+    @Override
+    public void removeProduct(Long id) {
+        productDao.deleteById(id);
+
+    }
+
+    @Override
+    public ProductDTO updateProduct(ProductDTO product) {
+        ProductEntity productEntity= productDao.save(ProductMapper.toProductEntity(product));
+        return ProductMapper.toProductDTO(productEntity);
+    }
 }
