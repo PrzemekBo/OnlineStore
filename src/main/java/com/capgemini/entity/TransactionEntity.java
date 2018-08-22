@@ -32,6 +32,9 @@ public class TransactionEntity {
     @ManyToMany
     private List<ProductEntity> products;
 
+    @Version
+    private int version;
+
 
 
 }

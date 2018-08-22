@@ -21,6 +21,7 @@ public class ProductDTO {
     private Long price;
     private Long margin;
     private Long weight;
+    private int version;
     private List<Long> transactions;
 
 }
