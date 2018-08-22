@@ -44,4 +44,7 @@ public class CustomerEntity extends AbstractEntity {
 
     @OneToMany
     private List<TransactionEntity> transactions;
+
+    @Version
+    private int version;
 }

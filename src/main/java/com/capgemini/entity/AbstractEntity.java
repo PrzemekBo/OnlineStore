@@ -6,21 +6,19 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
-@Entity
+
 @Data
 @MappedSuperclass
 public abstract class AbstractEntity {
 
-    @Version
-    @Column(columnDefinition = "bigint DEFAULT 0")
-    private int version;
+
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created", nullable = false, updatable = false)
+    @Column(name = "created", updatable = false)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated", nullable = false)
+    @Column(name = "updated")
     private Date updated;
 
     public Date getCreated() {
