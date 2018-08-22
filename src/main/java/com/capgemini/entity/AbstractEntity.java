@@ -1,15 +1,19 @@
 package com.capgemini.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
+@Entity
+@Data
 @MappedSuperclass
 public abstract class AbstractEntity {
 
     @Version
     @Column(columnDefinition = "bigint DEFAULT 0")
-    private long version;
+    private int version;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false, updatable = false)

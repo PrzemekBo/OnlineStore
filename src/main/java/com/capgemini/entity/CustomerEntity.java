@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 @Data
-public class CustomerEntity {
+public class CustomerEntity extends AbstractEntity {
 
 
     @Id

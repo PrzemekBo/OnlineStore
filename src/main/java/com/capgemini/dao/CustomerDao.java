@@ -10,5 +10,5 @@ public interface CustomerDao extends CrudRepository<CustomerEntity, Long> {
 
     CustomerEntity findCustomerEntityById(Long id);
     CustomerEntity deleteCustomerEntityById(Long id);
- 
+
 }
