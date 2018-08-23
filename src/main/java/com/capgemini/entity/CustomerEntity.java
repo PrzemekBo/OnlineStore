@@ -5,13 +5,14 @@ import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
 @Data
-public class CustomerEntity extends AbstractEntity {
+public class CustomerEntity extends AbstractEntity implements Serializable {
 
 
     @Id
@@ -42,7 +43,7 @@ public class CustomerEntity extends AbstractEntity {
     @NotNull
     private Date birthDate;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<TransactionEntity> transactions;
 
     @Version

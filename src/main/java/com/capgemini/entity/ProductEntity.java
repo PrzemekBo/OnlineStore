@@ -4,11 +4,12 @@ import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
-public class ProductEntity extends AbstractEntity {
+public class ProductEntity extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

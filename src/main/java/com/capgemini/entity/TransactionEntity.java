@@ -5,12 +5,13 @@ import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Data
-public class TransactionEntity extends AbstractEntity {
+public class TransactionEntity extends AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +28,10 @@ public class TransactionEntity extends AbstractEntity {
     @Column(length = 40)
     @NotNull
     private Long purchasesNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private CustomerEntity customer;
 
 
     @ManyToMany

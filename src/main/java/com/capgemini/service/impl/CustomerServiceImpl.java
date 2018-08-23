@@ -44,14 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO updateCustomer(CustomerDTO customer) {
         CustomerEntity customerEntity=customerDao.save(CustomerMapper.toCustomerEntity(customer));
         return CustomerMapper.toCustomerDTO(customerEntity);
-/*       CustomerEntity customerEntity=customerDao.findCustomerEntityById(customer.getId());
-        customerEntity.setFirstName(customer.getFirstName());
-        customerEntity.setLastName(customer.getLastName());
-        customerEntity.setEmail(customer.getEmail());
-        customerEntity.setPhoneNumber(customer.getPhoneNumber());
-        customerEntity.setAddress(customer.getAddress());
-        customerDao.save(customerEntity);
-        return CustomerMapper.toCustomerDTO(customerEntity);*/
+
     }
 
 

@@ -23,6 +23,7 @@ public class TransactionDTO {
     private Status status;
     private Long purchasesNumber;
     private List<Long> products;
+    private Long customer;
     private int version;
 
 }

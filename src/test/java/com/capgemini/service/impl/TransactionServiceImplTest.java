@@ -34,19 +34,13 @@ public class TransactionServiceImplTest {
     @Transactional
     public void shouldAddTransaction() {
 
-        TransactionDTO transaction= TransactionDTO.builder()
+   /*     TransactionDTO transaction= TransactionDTO.builder()
                 .transactionDate(new Date())
                 .status(Status.ANNULLED)
                 .products()
+*/
 
 
-
-        private Long id;
-        private Date transactionDate;
-        private Status status;
-        private Long purchasesNumber;
-        private List<Long> products;
-        private int version;
 
 
     }
