@@ -9,6 +9,8 @@ import com.capgemini.entity.TransactionEntity;
 import com.capgemini.enums.Status;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,17 @@ public class TransactionMapper {
         }
         return transactionDTO;
     }
+    public static List<TransactionDTO> toTransactionTOList(Iterable<TransactionEntity> transactions) {
+        Iterator<TransactionEntity> it = transactions.iterator();
+        List<TransactionDTO> transactionsTO = new LinkedList<>();
+
+        while (it.hasNext()){
+            transactionsTO.add(toTransactioDTO(it.next()));
+        }
+
+        return transactionsTO;
+    }
+
 
 
 

@@ -69,6 +69,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<TransactionDTO> findAllTransactions() {
+        return TransactionMapper.toTransactionTOList(transactionDao.findAll());
+    }
+
+    @Override
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
         TransactionEntity transactionEntity = transactionDao.save(TransactionMapper.toTransactionEntity(transactionDTO));
         return TransactionMapper.toTransactioDTO(transactionEntity);
@@ -110,4 +115,7 @@ public class TransactionServiceImpl implements TransactionService {
         productDao.saveAll(products);
     }
 
-    }
+
+    private void removeTransactionFromProducts(TransactionEntity transactionEntity, List<ProductEntity> productEntities) {
+
+}

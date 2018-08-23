@@ -27,7 +27,7 @@ public class TransactionEntity extends AbstractEntity implements Serializable {
 
     @Column(length = 40)
     @NotNull
-    private Long purchasesNumber;
+    private Integer purchasesNumber;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")

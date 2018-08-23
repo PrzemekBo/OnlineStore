@@ -21,7 +21,7 @@ public class TransactionDTO {
     private Long id;
     private Date transactionDate;
     private Status status;
-    private Long purchasesNumber;
+    private Integer purchasesNumber;
     private List<Long> products;
     private Long customer;
     private int version;
