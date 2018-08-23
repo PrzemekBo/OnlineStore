@@ -57,6 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         transactionEntity.setProducts(listOfproduct);
+        transactionValidator(customerEntity,listOfproduct);
         transactionDao.save(transactionEntity);
         addTransactionToCustomer(customerEntity, transactionEntity);
         addTransactionToProduct(listOfproduct, transactionEntity);
@@ -142,9 +143,14 @@ public class TransactionServiceImpl implements TransactionService {
         customerDao.save(customerEntity);
     }
 
+    private void transactionValidator(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException {
+        checkIfClienthaveCorectNumberOfTransaction(customerEntity,products);
+
+    }
+
 
     private void checkIfClienthaveCorectNumberOfTransaction(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException {
-            if (customerEntity.getTransactions()==null||3>customerEntity.getTransactions().size()){
+            if (customerEntity.getTransactions()==null||customerEntity.getTransactions().size()<3){
                 Long sumOfprice=0L;
                 for (ProductEntity productEntity: products){
                     sumOfprice=productEntity.getPrice();
