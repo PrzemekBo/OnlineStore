@@ -12,6 +12,7 @@ import com.capgemini.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,12 +24,16 @@ public class TransactionServiceImpl implements TransactionService {
     private ProductDao productDao;
     private CustomerDao customerDao;
 
+
     @Autowired
     public TransactionServiceImpl(TransactionDao transactionDao, CustomerDao customerDao, ProductDao productDao) {
         this.transactionDao = transactionDao;
         this.customerDao = customerDao;
         this.productDao = productDao;
+
     }
+
+
 
 
     @Override
@@ -37,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO addTransaction(TransactionDTO transactionDTO) {
+    public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException {
       /*  TransactionEntity transactionEntity=transactionDao.save(TransactionMapper.toTransactionEntity(transactionDTO));
         return TransactionMapper.toTransactioDTO(transactionEntity);*/
         TransactionEntity transactionEntity = TransactionMapper.toTransactionEntity(transactionDTO);
@@ -61,11 +66,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-
     @Override
     public void removeTransaction(Long id) {
-        transactionDao.deleteById(id);
+        TransactionEntity transactionEntity = transactionDao.findTransactionEntityById(id);
 
+        CustomerEntity customerEntity = transactionEntity.getCustomer();
+        removeTransactionFromCustomer(transactionEntity, customerEntity);
+
+        List<ProductEntity> productEntities = transactionEntity.getProducts();
+        removeTransactionFromProducts(transactionEntity, productEntities);
+
+        transactionDao.deleteById(id);
     }
 
     @Override
@@ -80,13 +91,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private void addTransactionToCustomer(CustomerEntity customerEntity, TransactionEntity transactionEntity) {
-        List<TransactionEntity>transactions;
+        List<TransactionEntity> transactions;
 
-        if (customerEntity.getTransactions() !=null){
-            transactions=customerEntity.getTransactions();
-        }
-        else{
-            transactions= new LinkedList<>();
+        if (customerEntity.getTransactions() != null) {
+            transactions = customerEntity.getTransactions();
+        } else {
+            transactions = new LinkedList<>();
         }
 
         transactions.add(transactionEntity);
@@ -95,17 +105,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-    private void addTransactionToProduct(List<ProductEntity>products, TransactionEntity transactionEntity) {
+    private void addTransactionToProduct(List<ProductEntity> products, TransactionEntity transactionEntity) {
 
         List<TransactionEntity> transactions;
 
 
-
-        for (ProductEntity productEntity:products){
-            if (productEntity.getTransactions()!=null){
-                transactions=productEntity.getTransactions();
-            }else {
-                transactions=new LinkedList<>();
+        for (ProductEntity productEntity : products) {
+            if (productEntity.getTransactions() != null) {
+                transactions = productEntity.getTransactions();
+            } else {
+                transactions = new LinkedList<>();
             }
             transactions.add(transactionEntity);
             productEntity.setTransactions(transactions);
@@ -117,5 +126,35 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     private void removeTransactionFromProducts(TransactionEntity transactionEntity, List<ProductEntity> productEntities) {
+        for (ProductEntity product : productEntities) {
+            List<TransactionEntity> transactionEntities = product.getTransactions();
+            transactionEntities.remove(transactionEntity);
+            product.setTransactions(transactionEntities);
+        }
+        productDao.saveAll(productEntities);
+    }
+
+
+    private void removeTransactionFromCustomer(TransactionEntity transactionEntity, CustomerEntity customerEntity) {
+        List<TransactionEntity> customerTransactions = customerEntity.getTransactions();
+        customerTransactions.remove(transactionEntity);
+        customerEntity.setTransactions(customerTransactions);
+        customerDao.save(customerEntity);
+    }
+
+
+    private void checkIfClienthaveCorectNumberOfTransaction(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException {
+            if (customerEntity.getTransactions()==null||3>customerEntity.getTransactions().size()){
+                Long sumOfprice=0L;
+                for (ProductEntity productEntity: products){
+                    sumOfprice=productEntity.getPrice();
+                }
+                if (sumOfprice>5000){
+                    throw new  InvalidPropertiesFormatException("You do not have enough transaction to buy for that amount");
+                }
+
+            }
+
+    }
 
 }

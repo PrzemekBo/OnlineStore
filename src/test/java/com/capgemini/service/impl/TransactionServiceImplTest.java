@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldAddTransaction() {
+    public void shouldAddTransaction() throws InvalidPropertiesFormatException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -91,7 +92,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldRemoveTransaction() {
+    public void shouldRemoveTransaction() throws InvalidPropertiesFormatException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -132,4 +133,62 @@ public class TransactionServiceImplTest {
         //then
         assertThat(transactions.size()).isEqualTo(0);
     }
+
+
+    @Test
+    @Transactional
+    public void shouldUpdateTransaction() throws InvalidPropertiesFormatException {
+
+
+        final Status status = Status.EXECUTED;
+        //given
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5L)
+                .margin(10L)
+                .weight(10L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        List<Long> listOfProducts = new LinkedList<>();
+        listOfProducts.add(newProduct.getId());
+
+        TransactionDTO transaction = TransactionDTO.builder()
+                .transactionDate(new Date())
+                .status(Status.IN_DELIVERY)
+                .products(listOfProducts)
+                .purchasesNumber(listOfProducts.size())
+                .customer(newCustomer.getId())
+                .build();
+        TransactionDTO newTransaction = transactionService.addTransaction(transaction);
+
+        TransactionDTO transactionToUpdate=transactionService.findTransactionEntityById(newTransaction.getId());
+        transactionToUpdate.setStatus(status);
+        transactionService.updateTransaction(transactionToUpdate);
+
+        //then
+        assertThat(transactionService
+                .findTransactionEntityById(transactionToUpdate.getId()).getStatus())
+                .isEqualTo(status);
+
+
+    }
+
+
+
+
+
+
+
 }
