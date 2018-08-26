@@ -1,4 +1,4 @@
 package com.capgemini.exception;
 
-public class TooManyTheSameProductException {
+public class TooManyTheSameProductException extends Throwable {
 }

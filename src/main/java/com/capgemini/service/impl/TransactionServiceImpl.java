@@ -7,6 +7,7 @@ import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.ProductEntity;
 import com.capgemini.entity.TransactionEntity;
+import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.mapper.TransactionMapper;
 import com.capgemini.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException {
+    public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException,TooManyTheSameProductException {
       /*  TransactionEntity transactionEntity=transactionDao.save(TransactionMapper.toTransactionEntity(transactionDTO));
         return TransactionMapper.toTransactioDTO(transactionEntity);*/
         TransactionEntity transactionEntity = TransactionMapper.toTransactionEntity(transactionDTO);
@@ -143,8 +144,9 @@ public class TransactionServiceImpl implements TransactionService {
         customerDao.save(customerEntity);
     }
 
-    private void transactionValidator(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException {
+    private void transactionValidator(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException, TooManyTheSameProductException {
         checkIfClienthaveCorectNumberOfTransaction(customerEntity,products);
+        checkIfTransactionHasMoreThanFiveProductWitchPriceAbove7000(products);
 
     }
 
@@ -161,6 +163,29 @@ public class TransactionServiceImpl implements TransactionService {
 
             }
 
+    }
+
+    private void checkIfTransactionHasMoreThanFiveProductWitchPriceAbove7000(List<ProductEntity> listOfProduct) throws TooManyTheSameProductException {
+        List<ProductEntity> productsProductWitchPriceAbove7000 = new LinkedList<>();
+        for (ProductEntity product : listOfProduct) {
+
+            if (product.getPrice() > 7000L) {
+                productsProductWitchPriceAbove7000.add(product);
+            }
+
+            for (int i = 0; i < productsProductWitchPriceAbove7000.size() - 1; i++) {
+                int count = 1;
+                for (int j = 1; j < productsProductWitchPriceAbove7000.size(); j++) {
+
+                    if (productsProductWitchPriceAbove7000.get(i).getId() == productsProductWitchPriceAbove7000.get(j).getId()) {
+                        count++;
+                    }
+                    if (count > 5) {
+                        throw new TooManyTheSameProductException();
+                    }
+                }
+            }
+        }
     }
 
 }

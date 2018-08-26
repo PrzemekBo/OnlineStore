@@ -46,6 +46,6 @@ public class CustomerEntity extends AbstractEntity implements Serializable {
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<TransactionEntity> transactions;
 
-    @Version
-    private int version;
+ /*   @Version
+    private int version;*/
 }

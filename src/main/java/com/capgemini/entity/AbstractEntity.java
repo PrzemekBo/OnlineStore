@@ -22,6 +22,12 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "updated")
     private Date updated;
 
+    @Version private int version;
+
+
+    public AbstractEntity() {
+    }
+
     public Date getCreated() {
         return created;
     }

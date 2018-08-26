@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name = "product")
 @Data
 public class ProductEntity extends AbstractEntity implements Serializable {
 
@@ -36,7 +37,7 @@ public class ProductEntity extends AbstractEntity implements Serializable {
     @ManyToMany
     private List<TransactionEntity> transactions;
 
-    @Version
-    private int version;
+/*    @Version
+    private int version;*/
 
 }

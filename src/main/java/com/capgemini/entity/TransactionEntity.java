@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "transaction")
 @Data
 public class TransactionEntity extends AbstractEntity implements Serializable {
 
@@ -21,8 +22,8 @@ public class TransactionEntity extends AbstractEntity implements Serializable {
     @NotNull
     private Date transactionDate;
 
-    @Column
-    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Enumerated
     private Status status;
 
     @Column(length = 40)
@@ -36,9 +37,9 @@ public class TransactionEntity extends AbstractEntity implements Serializable {
 
     @ManyToMany
     private List<ProductEntity> products;
-
+/*
     @Version
-    private int version;
+    private int version;*/
 
 
 
