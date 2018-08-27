@@ -39,8 +39,9 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
 
     /**
      * Calculate the profit from a defined time period
+     *
      * @param startDate The beginning of the period from which we are looking for profits
-     * @param endDate  The ending of the period from which we are looking for profits
+     * @param endDate   The ending of the period from which we are looking for profits
      * @return profits
      */
     @Override
@@ -56,6 +57,7 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
 
     /**
      * Calculate the value of all customer transactions by cusomer id
+     *
      * @param id id of customer
      * @return value of transactions
      */
@@ -70,7 +72,8 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
 
     /**
      * Calculate the value of all customer transactions by cusomer id and status
-     * @param id id of customer
+     *
+     * @param id     id of customer
      * @param status status of transaction
      * @return value of transactions
      */
@@ -85,8 +88,9 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
 
     /**
      * Calculate the value of all customers transactions by and status
+     *
      * @param status customers status
-     * @return  value of transactions
+     * @return value of transactions
      */
     @Override
     public Long calculateAllPriceOfTransactionsForAllCustomersByStatus(Status status) {
@@ -99,12 +103,13 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
 
     /**
      * Searches transactions by 4 criteria.
+     *
      * @param transactionSearchCriteria customer email, start date, ending date, id of product, transaction price
      * @return transaction
      * @throws TransactionSearchCriteriaException if no criterion is defined
      */
     @Override
-    public List<TransactionEntity> searchTransactionByFourCriteria(TransactionSearchCriteria transactionSearchCriteria)throws TransactionSearchCriteriaException  {
+    public List<TransactionEntity> searchTransactionByFourCriteria(TransactionSearchCriteria transactionSearchCriteria) throws TransactionSearchCriteriaException {
         BooleanBuilder query = new BooleanBuilder();
 
         if (transactionSearchCriteria.getEmail() == null

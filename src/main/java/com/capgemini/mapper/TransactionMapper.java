@@ -1,14 +1,8 @@
 package com.capgemini.mapper;
 
-import com.capgemini.dto.CustomerDTO;
-import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
-import com.capgemini.entity.CustomerEntity;
-import com.capgemini.entity.ProductEntity;
 import com.capgemini.entity.TransactionEntity;
-import com.capgemini.enums.Status;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +41,7 @@ public class TransactionMapper {
 
 
         if (transactionEntity.getProducts() != null) {
-            transactionDTO.setProducts(transactionEntity.getProducts().stream().map(t->t.getId()).collect(Collectors.toList()));
+            transactionDTO.setProducts(transactionEntity.getProducts().stream().map(t -> t.getId()).collect(Collectors.toList()));
         }
         return transactionDTO;
     }
@@ -57,13 +51,12 @@ public class TransactionMapper {
         Iterator<TransactionEntity> it = transactions.iterator();
         List<TransactionDTO> transactionsTO = new LinkedList<>();
 
-        while (it.hasNext()){
+        while (it.hasNext()) {
             transactionsTO.add(toTransactioDTO(it.next()));
         }
 
         return transactionsTO;
     }
-
 
 
 }

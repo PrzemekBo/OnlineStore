@@ -13,7 +13,6 @@ import java.util.Date;
 public abstract class AbstractEntity implements Serializable {
 
 
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", updatable = false)
     private Date created;
@@ -22,7 +21,8 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "updated")
     private Date updated;
 
-    @Version private int version;
+    @Version
+    private int version;
 
 
     public AbstractEntity() {

@@ -22,8 +22,4 @@ public interface TransactionDaoCustom {
     List<TransactionEntity> searchTransactionByFourCriteria(TransactionSearchCriteria transactionSearchCriteria) throws TransactionSearchCriteriaException;
 
 
-
-
-
-
 }

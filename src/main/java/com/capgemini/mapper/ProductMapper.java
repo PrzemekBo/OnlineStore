@@ -1,8 +1,6 @@
 package com.capgemini.mapper;
 
-import com.capgemini.dto.CustomerDTO;
 import com.capgemini.dto.ProductDTO;
-import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.ProductEntity;
 
 import java.util.Iterator;
@@ -43,11 +41,10 @@ public class ProductMapper {
         productDTO.setVersion(productDTO.getVersion());
 
         if (productEntity.getTransactions() != null) {
-            productDTO.setTransactions(productEntity.getTransactions().stream().map(t->t.getId()).collect(Collectors.toList()));
+            productDTO.setTransactions(productEntity.getTransactions().stream().map(t -> t.getId()).collect(Collectors.toList()));
         }
         return productDTO;
     }
-
 
 
     public static List<ProductDTO> toProductTOList(Iterable<ProductEntity> products) {

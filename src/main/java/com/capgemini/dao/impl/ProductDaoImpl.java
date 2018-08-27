@@ -5,14 +5,14 @@ import com.capgemini.entity.ProductEntity;
 import com.capgemini.entity.QProductEntity;
 import com.capgemini.entity.QTransactionEntity;
 import com.capgemini.enums.Status;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.core.Tuple;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,8 @@ public class ProductDaoImpl implements ProductDaoCustom {
     }
 
     /**
-     *Finds 10 best-selling items
+     * Finds 10 best-selling items
+     *
      * @return List of products
      */
     @Override
@@ -56,7 +57,8 @@ public class ProductDaoImpl implements ProductDaoCustom {
 
 
     /**
-     *Finds items with the statute IN_IMPLEMENTATION
+     * Finds items with the statute IN_IMPLEMENTATION
+     *
      * @return Found products
      */
     @Override

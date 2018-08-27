@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Data
-@EntityListeners({ CreateListener.class, UpdateListener.class })
+@EntityListeners({CreateListener.class, UpdateListener.class})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class ProductEntity extends AbstractEntity implements Serializable {
 
@@ -41,7 +41,6 @@ public class ProductEntity extends AbstractEntity implements Serializable {
     @ManyToMany
     private List<TransactionEntity> transactions;
 
-/*    @Version
-    private int version;*/
+
 
 }

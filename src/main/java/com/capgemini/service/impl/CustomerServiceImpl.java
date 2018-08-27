@@ -16,13 +16,12 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-
-
     CustomerDao customerDao;
 
-
     @Autowired
-    public CustomerServiceImpl(CustomerDao customerDao){this.customerDao=customerDao;}
+    public CustomerServiceImpl(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
 
 
     @Override
@@ -32,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO addCustomer(CustomerDTO customerDTO) {
-        CustomerEntity customerEntity=customerDao.save(CustomerMapper.toCustomerEntity(customerDTO));
+        CustomerEntity customerEntity = customerDao.save(CustomerMapper.toCustomerEntity(customerDTO));
         return CustomerMapper.toCustomerDTO(customerEntity);
     }
 
@@ -43,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO updateCustomer(CustomerDTO customer) {
-        CustomerEntity customerEntity=customerDao.save(CustomerMapper.toCustomerEntity(customer));
+        CustomerEntity customerEntity = customerDao.save(CustomerMapper.toCustomerEntity(customer));
         return CustomerMapper.toCustomerDTO(customerEntity);
 
     }

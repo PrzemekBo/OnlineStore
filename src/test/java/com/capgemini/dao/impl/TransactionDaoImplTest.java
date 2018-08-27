@@ -600,10 +600,6 @@ public class TransactionDaoImplTest {
         }
 
         assertTrue(exceptionThrown);
-/*
-        assertThat(transactions.size()).isEqualTo(0);
-        assertThat(transactions.get(0).getCustomer().getEmail()).isEqualTo(TEST_EMAIL);
-*/
 
     }
 

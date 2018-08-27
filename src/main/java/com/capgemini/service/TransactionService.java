@@ -1,14 +1,12 @@
 package com.capgemini.service;
 
 import com.capgemini.criteria.TransactionSearchCriteria;
-import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.TransactionEntity;
 import com.capgemini.enums.Status;
 import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.exception.TransactionSearchCriteriaException;
-
 
 import java.util.Date;
 import java.util.InvalidPropertiesFormatException;

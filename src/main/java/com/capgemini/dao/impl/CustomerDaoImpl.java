@@ -1,6 +1,5 @@
 package com.capgemini.dao.impl;
 
-import com.capgemini.dao.CustomerDao;
 import com.capgemini.dao.custom.CustomerDaoCustom;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.QCustomerEntity;
@@ -36,14 +35,15 @@ public class CustomerDaoImpl implements CustomerDaoCustom {
         queryFactory = new JPAQueryFactory(this.entityManager);
         transaction = QTransactionEntity.transactionEntity;
         product = QProductEntity.productEntity;
-        customer= QCustomerEntity.customerEntity;
+        customer = QCustomerEntity.customerEntity;
     }
 
 
     /**
      * Finds three customers who have spent the most money over a period of time.
+     *
      * @param startDate The beginning of the period from which we are looking for cstomers
-     * @param endDate The end of the period from which we are looking for customers
+     * @param endDate   The end of the period from which we are looking for customers
      * @return List of customers
      */
     @Override
@@ -54,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDaoCustom {
 
         List<Tuple> tuples = queryFactory.selectFrom(customer)
                 .select(customer, product.price.sum().as(sum))
-                .innerJoin(customer.transactions,transaction)
+                .innerJoin(customer.transactions, transaction)
                 .innerJoin(transaction.products, product)
                 .groupBy(customer.id)
                 .where(transaction.transactionDate.between(startDate, endDate))

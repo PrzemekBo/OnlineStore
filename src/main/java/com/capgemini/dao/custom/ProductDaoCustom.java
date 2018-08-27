@@ -1,4 +1,5 @@
 package com.capgemini.dao.custom;
+
 import com.capgemini.entity.ProductEntity;
 import com.querydsl.core.Tuple;
 

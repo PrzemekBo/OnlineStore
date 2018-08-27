@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerDao extends CrudRepository<CustomerEntity, Long> , CustomerDaoCustom {
+public interface CustomerDao extends CrudRepository<CustomerEntity, Long>, CustomerDaoCustom {
 
     CustomerEntity findCustomerEntityById(Long id);
 

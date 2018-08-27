@@ -44,7 +44,7 @@ public class CustomerMapper {
         customerDTO.setVersion(customerEntity.getVersion());
 
         if (customerEntity.getTransactions() != null) {
-            customerDTO.setTransactions(customerEntity.getTransactions().stream().map(t->t.getId()).collect(Collectors.toList()));
+            customerDTO.setTransactions(customerEntity.getTransactions().stream().map(t -> t.getId()).collect(Collectors.toList()));
         }
         return customerDTO;
     }

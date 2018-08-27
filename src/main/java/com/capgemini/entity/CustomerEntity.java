@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 @Data
-@EntityListeners({ CreateListener.class, UpdateListener.class })
+@EntityListeners({CreateListener.class, UpdateListener.class})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class CustomerEntity extends AbstractEntity implements Serializable {
 
@@ -50,6 +50,4 @@ public class CustomerEntity extends AbstractEntity implements Serializable {
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<TransactionEntity> transactions;
 
- /*   @Version
-    private int version;*/
 }
