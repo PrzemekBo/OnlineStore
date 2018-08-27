@@ -4,7 +4,6 @@ import com.capgemini.dao.ProductDao;
 import com.capgemini.dto.CustomerDTO;
 import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
-import com.capgemini.entity.ProductEntity;
 import com.capgemini.enums.Status;
 import com.capgemini.exception.InvalidTransactionException;
 import com.capgemini.exception.ToLargeWeightException;
@@ -26,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+
 @SpringBootTest(properties = "spring.profiles.active=hsql")
 @RunWith(SpringRunner.class)
 public class ProductDaoImplTest {
@@ -45,7 +44,7 @@ public class ProductDaoImplTest {
     private ProductDao productDao;
 
 
-    private static final Status IN_IMPLEMENTATION_STATUS=Status.IN_IMPLEMENTATION;
+    private static final Status IN_IMPLEMENTATION_STATUS = Status.IN_IMPLEMENTATION;
 
 
     @Test
@@ -111,10 +110,8 @@ public class ProductDaoImplTest {
 
         assertThat(items.size()).isEqualTo(10);
 
-        //TODO sprawdyic cyz sa najwieksye dodane
+
     }
-
-
 
 
     @Test
@@ -152,18 +149,11 @@ public class ProductDaoImplTest {
 
         TransactionDTO transaction = TransactionDTO.builder()
                 .transactionDate(new Date())
-                .status(Status.IN_DELIVERY)
+                .status(IN_IMPLEMENTATION_STATUS)
                 .products(productsList)
                 .purchasesNumber(productsList.size())
                 .customer(newCustomer.getId())
                 .build();
-      //  TransactionDTO newTransaction = transactionService.addTransaction(transaction);
-
-
-        transactionService.addTransaction(transaction);
-        transactionService.addTransaction(transaction);
-        transactionService.addTransaction(transaction);
-
 
 
         transaction.setCustomer(newCustomer2.getId());
@@ -176,21 +166,8 @@ public class ProductDaoImplTest {
         //then
         assertThat(items.size()).isEqualTo(2);
 
-        //TODo moyna to troche poprawic
-/*        assertThat(items.get(0).size()).isEqualTo(2);
-        assertThat(items.get(0).toArray()[0]).isEqualTo(newProduct.getProductName());
-        assertThat(items.get(0).toArray()[1]).isEqualTo(3L);
-        assertThat(items.get(1).toArray()[0]).isEqualTo(newProduct2.getProductName());
-        assertThat(items.get(1).toArray()[1]).isEqualTo(6L);*/
+
     }
-
-
-
-
-
-
-
-
 
 
 }

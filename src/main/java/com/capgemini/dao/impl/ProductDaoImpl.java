@@ -36,7 +36,6 @@ public class ProductDaoImpl implements ProductDaoCustom {
 
     /**
      * Finds 10 best-selling items
-     *
      * @return List of products
      */
     @Override
@@ -58,7 +57,6 @@ public class ProductDaoImpl implements ProductDaoCustom {
 
     /**
      * Finds items with the statute IN_IMPLEMENTATION
-     *
      * @return Found products
      */
     @Override

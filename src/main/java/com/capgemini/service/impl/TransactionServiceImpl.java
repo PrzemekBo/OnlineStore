@@ -181,7 +181,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void checkCorrectnessOfWeight(List<ProductEntity> listOfproduct)throws ToLargeWeightException {
 
-
+   
         Long weights = 0L;
         for (ProductEntity product : listOfproduct) {
             weights += product.getWeight();

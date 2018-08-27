@@ -2,7 +2,6 @@ package com.capgemini.service.impl;
 
 import com.capgemini.dao.CustomerDao;
 import com.capgemini.dto.CustomerDTO;
-import com.capgemini.dto.CustomerDTO.CustomerDTOBuilder;
 import com.capgemini.service.CustomerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +11,9 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Year;
 import java.util.Date;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @SpringBootTest(properties = "spring.profiles.active=hsql")
 @RunWith(SpringRunner.class)
@@ -34,7 +30,7 @@ public class CustomerServiceImplTest {
     public void shouldAddCustomer() {
 
         //given
-        CustomerDTO customer= new CustomerDTO().builder()
+        CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Adam")
                 .lastName("Kowalski")
                 .email("adam.kowalski@wp.pl")
@@ -43,7 +39,7 @@ public class CustomerServiceImplTest {
                 .birthDate(new Date())
                 .version(1)
                 .build();
-        CustomerDTO newCustomer=customerService.addCustomer(customer);
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
 
         //when
         CustomerDTO selectedClientCustomer = customerService.findCustomerEntityById(newCustomer.getId());
@@ -81,7 +77,7 @@ public class CustomerServiceImplTest {
     @Transactional
     public void shouldUpdateCustomer() {
 
-        final String address ="Wroclaw" ;
+        final String address = "Wroclaw";
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -97,7 +93,7 @@ public class CustomerServiceImplTest {
         //when
         CustomerDTO cusumerToChangeAddress = customerService.findCustomerEntityById(newCustomer.getId());
         cusumerToChangeAddress.setAddress(address);
-       customerService.updateCustomer(cusumerToChangeAddress);
+        customerService.updateCustomer(cusumerToChangeAddress);
 
         CustomerDTO customerDTO = customerService.findCustomerEntityById(cusumerToChangeAddress.getId());
 
@@ -111,7 +107,7 @@ public class CustomerServiceImplTest {
     @Transactional
     public void shouldUpdateVersion() {
 
-        final String address ="Wroclaw" ;
+        final String address = "Wroclaw";
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -127,9 +123,9 @@ public class CustomerServiceImplTest {
 
         //when
         newCustomer.setAddress(address);
-        int version= customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
+        int version = customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
         customerService.updateCustomer(newCustomer);
-        int version2= customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
+        int version2 = customerDao.findCustomerEntityById(newCustomer.getId()).getVersion();
 
 
         //then
@@ -158,7 +154,6 @@ public class CustomerServiceImplTest {
 
         newCustomer.setFirstName("test2");
         customerService.updateCustomer(newCustomer);
-
 
 
     }

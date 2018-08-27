@@ -214,8 +214,6 @@ public class TransactionDaoImplTest {
         assertThat(cost).isEqualTo(4000L);
 
 
-        //TODO dkoncy y innym satusem
-
     }
 
 
@@ -383,7 +381,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
+        TransactionSearchCriteria transactionSearchCriteria = new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
         transactionSearchCriteria.setDateFrom(new Date(500L));
         transactionSearchCriteria.setDateTo(new Date(2000L));
@@ -435,7 +433,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
+        TransactionSearchCriteria transactionSearchCriteria = new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
         List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
 
@@ -483,7 +481,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
+        TransactionSearchCriteria transactionSearchCriteria = new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
         transactionSearchCriteria.setTrnsactionPrice(2000L);
         List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
@@ -532,7 +530,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
+        TransactionSearchCriteria transactionSearchCriteria = new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
         transactionSearchCriteria.setDateFrom(new Date(500L));
         transactionSearchCriteria.setDateTo(new Date(2000L));
@@ -583,26 +581,24 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
+        TransactionSearchCriteria transactionSearchCriteria = new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(null);
         transactionSearchCriteria.setDateFrom(null);
         transactionSearchCriteria.setDateTo(null);
         transactionSearchCriteria.setProductId(null);
         transactionSearchCriteria.setTrnsactionPrice(null);
-     //   List<TransactionEntity> transactions = transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
 
 
         boolean exceptionThrown = false;
         try {
             transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
-        }catch (TransactionSearchCriteriaException e){
-            exceptionThrown=true;
+        } catch (TransactionSearchCriteriaException e) {
+            exceptionThrown = true;
         }
 
         assertTrue(exceptionThrown);
 
     }
-
 
 
 }

@@ -145,7 +145,8 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
                                     .from(product)
                                     .innerJoin(product.transactions, transaction)
                                     .groupBy(transaction.id)
-                                    .having(product.price.sum().eq(transactionSearchCriteria.getTrnsactionPrice()))
+                                    .having(product.price.sum()
+                                            .eq(transactionSearchCriteria.getTrnsactionPrice()))
                     )
                             .and(query))
                     .groupBy(transaction.id).fetch();
