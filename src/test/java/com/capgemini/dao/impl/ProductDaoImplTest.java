@@ -7,6 +7,7 @@ import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.ProductEntity;
 import com.capgemini.enums.Status;
 import com.capgemini.exception.InvalidTransactionException;
+import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.service.CustomerService;
 import com.capgemini.service.ProductService;
@@ -49,7 +50,7 @@ public class ProductDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTenSellers() throws InvalidTransactionException, InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldFindTenSellers() throws InvalidTransactionException, InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -67,7 +68,7 @@ public class ProductDaoImplTest {
                 .productName("Torba")
                 .price(5L)
                 .margin(10L)
-                .weight(10L)
+                .weight(1L)
                 .build();
         ProductDTO newProduct = productService.addProduct(product);
         ProductDTO newProduct2 = productService.addProduct(product);
@@ -118,7 +119,7 @@ public class ProductDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindItemsInInplementationStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldFindItemsInInplementationStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
 
         //given

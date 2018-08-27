@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +95,29 @@ public class ProductServiceImplTest {
                 .isEqualTo(weight);
 
     }
+
+    @Test(expected = OptimisticLockingFailureException.class)
+    public void shouldTestOptimisticLookingExceptionForProduct() {
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5L)
+                .margin(10L)
+                .weight(10L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        newProduct.setPrice(2L);
+        productService.updateProduct(newProduct);
+
+        newProduct.setPrice(3L);
+        productService.updateProduct(newProduct);
+
+
+
+    }
+
 
 
 }

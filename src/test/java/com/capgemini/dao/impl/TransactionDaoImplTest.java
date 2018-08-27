@@ -7,6 +7,7 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.TransactionEntity;
 import com.capgemini.enums.Status;
+import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.exception.TransactionSearchCriteriaException;
 import com.capgemini.service.CustomerService;
@@ -55,7 +56,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldCalculateProfitInSomeTimePeriod() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldCalculateProfitInSomeTimePeriod() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -108,7 +109,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldSumAllPriceOfTransactionsForCustomer() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldSumAllPriceOfTransactionsForCustomer() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -161,7 +162,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldCalculateAllPriceOfTransactionsForCustomerByStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldCalculateAllPriceOfTransactionsForCustomerByStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -220,7 +221,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldCalculateAllPriceOfTransactionsForCustomerByStatusIfThisStatusDontExist() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldCalculateAllPriceOfTransactionsForCustomerByStatusIfThisStatusDontExist() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -275,7 +276,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldCalculateAllPriceOfTransactionsForAllCustomersByStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldCalculateAllPriceOfTransactionsForAllCustomersByStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
         //given
         CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Adam")
@@ -347,7 +348,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTransactionByFourCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException {
+    public void shouldFindTransactionByFourCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException, ToLargeWeightException {
         //given
         CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Adam")
@@ -399,7 +400,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTransactionByOneCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException {
+    public void shouldFindTransactionByOneCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException, ToLargeWeightException {
         //given
         CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Adam")
@@ -446,7 +447,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTransactionByTwoCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException {
+    public void shouldFindTransactionByTwoCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -496,7 +497,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTransactionByThreeCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException {
+    public void shouldFindTransactionByThreeCriteria() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException, ToLargeWeightException {
         //given
         CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Adam")
@@ -547,7 +548,7 @@ public class TransactionDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindThrowTransactionSearchCriteriaException() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException {
+    public void shouldFindThrowTransactionSearchCriteriaException() throws TooManyTheSameProductException, InvalidPropertiesFormatException, TransactionSearchCriteriaException, ToLargeWeightException {
         //given
         CustomerDTO customer = new CustomerDTO().builder()
                 .firstName("Marek")

@@ -7,6 +7,7 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.enums.Status;
 
+import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.service.CustomerService;
 
@@ -16,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +44,6 @@ public class TransactionServiceImplTest {
     private CustomerService customerService;
 
 
-
     @Autowired
     private ProductService productService;
 
@@ -50,12 +51,12 @@ public class TransactionServiceImplTest {
     private TransactionDao transactionDao;
 
 
-    private static final Long PRICE_MORE_GREATER_THAN_7001=7001L;
+    private static final Long PRICE_MORE_GREATER_THAN_7001 = 7001L;
 
 
     @Test
     @Transactional
-    public void shouldAddTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldAddTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
 
         //given
@@ -95,7 +96,6 @@ public class TransactionServiceImplTest {
         TransactionDTO transactionDTO = transactionService.findTransactionEntityById(newTransaction.getId());
 
 
-
         //then
         assertThat(transactionDTO.getId()).isEqualTo(transactionDTO.getId());
         assertThat(transactionDTO.getProducts().size()).isEqualTo(1);
@@ -108,12 +108,9 @@ public class TransactionServiceImplTest {
     }
 
 
-
-
-
     @Test
     @Transactional
-    public void shouldUpdateTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldUpdateTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
 
         final Status status = Status.EXECUTED;
@@ -163,7 +160,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldFindTwoTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldFindTwoTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -228,8 +225,7 @@ public class TransactionServiceImplTest {
                 .weight(10L)
                 .build();
         ProductDTO newProduct = productService.addProduct(product);
-        ProductDTO newProduct2= productService.addProduct(product);
-
+        ProductDTO newProduct2 = productService.addProduct(product);
 
 
         List<Long> listOfProducts = new LinkedList<>();
@@ -244,12 +240,14 @@ public class TransactionServiceImplTest {
                 .customer(newCustomer.getId())
                 .build();
 
-       //when
+        //when
         boolean exceptionThrown = false;
         try {
             transactionService.addTransaction(transaction);
-        } catch (InvalidPropertiesFormatException e){
+        } catch (InvalidPropertiesFormatException e) {
             exceptionThrown = true;
+        } catch (ToLargeWeightException e) {
+            e.printStackTrace();
         }
 
         //then
@@ -258,7 +256,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldAddTransactionWhenNumbersOfTransactionIsCorrect() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldAddTransactionWhenNumbersOfTransactionIsCorrect() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
 
         //given
@@ -311,7 +309,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldRemoveTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldRemoveTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -355,7 +353,7 @@ public class TransactionServiceImplTest {
 
     @Test
     @Transactional
-    public void shouldThromExceptionWhenCusomerBuyTooManyTheSameProduct() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    public void shouldThrowExceptionWhenCusomerBuyTooManyTheSameProduct() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -375,7 +373,6 @@ public class TransactionServiceImplTest {
                 .weight(10L)
                 .build();
         ProductDTO newProduct = productService.addProduct(product);
-
 
 
         List<Long> listOfProducts = new LinkedList<>();
@@ -409,20 +406,168 @@ public class TransactionServiceImplTest {
 
         transaction.setProducts(listOfProducts);
 
+
         //when
         boolean exceptionThrown = false;
         try {
             transactionService.addTransaction(transaction);
-        } catch (TooManyTheSameProductException e){
+        } catch (TooManyTheSameProductException e) {
             exceptionThrown = true;
         }
 
         //then
         assertTrue(exceptionThrown);
 
+    }
 
+    @Test
+    @Transactional
+    public void shouldThrowExceptionToLargeWeightException() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
+
+        //given
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5000L)
+                .margin(10L)
+                .weight(26L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        List<Long> listOfProducts = new LinkedList<>();
+        listOfProducts.add(newProduct.getId());
+
+
+        TransactionDTO transaction = TransactionDTO.builder()
+                .transactionDate(new Date())
+                .status(Status.IN_DELIVERY)
+                .products(listOfProducts)
+                .purchasesNumber(listOfProducts.size())
+                .customer(newCustomer.getId())
+                .build();
+        transaction.setProducts(listOfProducts);
+
+        //when
+        boolean exceptionThrown = false;
+        try {
+            transactionService.addTransaction(transaction);
+        } catch (ToLargeWeightException e) {
+            exceptionThrown = true;
+        }
+
+        //then
+        assertTrue(exceptionThrown);
 
     }
+
+    @Test
+    @Transactional
+    public void shouldAcceptPransactionWithLimitWeight() throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
+
+        //given
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5000L)
+                .margin(10L)
+                .weight(25L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        List<Long> listOfProducts = new LinkedList<>();
+        listOfProducts.add(newProduct.getId());
+
+
+        TransactionDTO transaction = TransactionDTO.builder()
+                .transactionDate(new Date())
+                .status(Status.IN_DELIVERY)
+                .products(listOfProducts)
+                .purchasesNumber(listOfProducts.size())
+                .customer(newCustomer.getId())
+                .build();
+        TransactionDTO newTransaction = transactionService.addTransaction(transaction);
+
+
+        TransactionDTO transactionDTO = transactionService.findTransactionEntityById(newTransaction.getId());
+
+
+        assertThat(transactionDTO.getProducts().size()).isEqualTo(1);
+        assertThat(productService.findProductEntityById(newProduct.getId()).getWeight()).isEqualTo(25L);
+
+    }
+
+
+    @Test(expected = OptimisticLockingFailureException.class)
+    public void shouldTestOptimisticLookingExceptionForTransaction() throws TooManyTheSameProductException, ToLargeWeightException, InvalidPropertiesFormatException {
+
+
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5000L)
+                .margin(10L)
+                .weight(25L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        List<Long> listOfProducts = new LinkedList<>();
+        listOfProducts.add(newProduct.getId());
+
+
+
+        TransactionDTO transaction = TransactionDTO.builder()
+                .transactionDate(new Date())
+                .status(Status.IN_DELIVERY)
+                .products(listOfProducts)
+                .purchasesNumber(listOfProducts.size())
+                .customer(newCustomer.getId())
+                .build();
+        TransactionDTO newTransaction = transactionService.addTransaction(transaction);
+
+
+        newTransaction.setStatus(Status.IN_IMPLEMENTATION);
+        transactionService.updateTransaction(newTransaction);
+
+
+        newTransaction.setStatus(Status.IN_DELIVERY);
+        transactionService.updateTransaction(newTransaction);
+
+
+
+ 
+
+    }
+
 
 
 }

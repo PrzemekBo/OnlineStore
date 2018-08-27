@@ -1,6 +1,8 @@
 package com.capgemini.entity;
 
 import com.capgemini.enums.Status;
+import com.capgemini.listener.CreateListener;
+import com.capgemini.listener.UpdateListener;
 import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "transaction")
 @Data
+@EntityListeners({ CreateListener.class, UpdateListener.class })
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class TransactionEntity extends AbstractEntity implements Serializable {
 
     @Id

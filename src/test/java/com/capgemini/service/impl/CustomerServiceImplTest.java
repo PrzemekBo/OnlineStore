@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -133,6 +134,32 @@ public class CustomerServiceImplTest {
 
         //then
         assertThat(version).isNotEqualTo(version2);
+
+    }
+
+    @Test(expected = OptimisticLockingFailureException.class)
+    public void shouldTestOptimisticLookingExceptionForCustomer() {
+
+
+        //given
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+
+        newCustomer.setFirstName("test1");
+        customerService.updateCustomer(newCustomer);
+
+        newCustomer.setFirstName("test2");
+        customerService.updateCustomer(newCustomer);
+
+
 
     }
 

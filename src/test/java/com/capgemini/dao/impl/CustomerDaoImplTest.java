@@ -7,6 +7,7 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.enums.Status;
+import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.service.CustomerService;
 import com.capgemini.service.ProductService;
@@ -47,7 +48,7 @@ public class CustomerDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindThreeBestClientsInSomeTimePeriod() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldFindThreeBestClientsInSomeTimePeriod() throws TooManyTheSameProductException, InvalidPropertiesFormatException, ToLargeWeightException {
 
 
         //given

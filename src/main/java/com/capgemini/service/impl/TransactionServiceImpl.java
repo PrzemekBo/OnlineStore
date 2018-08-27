@@ -8,6 +8,7 @@ import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.ProductEntity;
 import com.capgemini.entity.TransactionEntity;
+import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.mapper.TransactionMapper;
 import com.capgemini.service.TransactionService;
@@ -42,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException,TooManyTheSameProductException {
+    public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
 
         TransactionEntity transactionEntity = TransactionMapper.toTransactionEntity(transactionDTO);
         CustomerEntity customerEntity = customerDao.findCustomerEntityById(transactionDTO.getCustomer());
@@ -142,11 +143,26 @@ public class TransactionServiceImpl implements TransactionService {
         customerDao.save(customerEntity);
     }
 
-    private void transactionValidator(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+    private void transactionValidator(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException, TooManyTheSameProductException, ToLargeWeightException {
         checkIfClienthaveCorectNumberOfTransaction(customerEntity,products);
         checkIfTransactionHasMoreThanFiveProductWitchPriceAbove7000(products);
+        checkCorrectnessOfWeight(products);
 
     }
+
+    private void checkCorrectnessOfWeight(List<ProductEntity> listOfproduct)throws ToLargeWeightException {
+
+
+        Long weights = 0L;
+        for (ProductEntity product : listOfproduct) {
+            weights += product.getWeight();
+        }
+
+        if (weights > 25) {
+            throw new ToLargeWeightException();
+        }
+    }
+
 
 
     private void checkIfClienthaveCorectNumberOfTransaction(CustomerEntity customerEntity, List<ProductEntity> products) throws InvalidPropertiesFormatException {
@@ -160,6 +176,8 @@ public class TransactionServiceImpl implements TransactionService {
                 }
 
             }
+
+
 
     }
 

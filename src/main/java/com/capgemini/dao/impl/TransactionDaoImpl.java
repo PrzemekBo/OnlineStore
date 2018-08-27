@@ -57,7 +57,7 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
     /**
      * Calculate the value of all customer transactions by cusomer id
      * @param id id of customer
-     * @return value of transaction
+     * @return value of transactions
      */
     @Override
     public Long sumAllPriceOfTransactionsForCustomer(Long id) {
@@ -72,7 +72,7 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
      * Calculate the value of all customer transactions by cusomer id and status
      * @param id id of customer
      * @param status status of transaction
-     * @return value of transaction
+     * @return value of transactions
      */
     @Override
     public Long calculateAllPriceOfTransactionsForCustomerByStatus(Long id, Status status) {
@@ -86,7 +86,7 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
     /**
      * Calculate the value of all customers transactions by and status
      * @param status customers status
-     * @return 
+     * @return  value of transactions
      */
     @Override
     public Long calculateAllPriceOfTransactionsForAllCustomersByStatus(Status status) {
@@ -97,6 +97,12 @@ public class TransactionDaoImpl implements TransactionDaoCustom {
                 .fetchOne();
     }
 
+    /**
+     * Searches transactions by 4 criteria.
+     * @param transactionSearchCriteria customer email, start date, ending date, id of product, transaction price
+     * @return transaction
+     * @throws TransactionSearchCriteriaException if no criterion is defined
+     */
     @Override
     public List<TransactionEntity> searchTransactionByFourCriteria(TransactionSearchCriteria transactionSearchCriteria)throws TransactionSearchCriteriaException  {
         BooleanBuilder query = new BooleanBuilder();
