@@ -34,9 +34,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-
-
-
     @Override
     public TransactionDTO findTransactionEntityById(Long id) {
         return TransactionMapper.toTransactioDTO(transactionDao.findTransactionEntityById(id));
@@ -44,8 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException,TooManyTheSameProductException {
-      /*  TransactionEntity transactionEntity=transactionDao.save(TransactionMapper.toTransactionEntity(transactionDTO));
-        return TransactionMapper.toTransactioDTO(transactionEntity);*/
+
         TransactionEntity transactionEntity = TransactionMapper.toTransactionEntity(transactionDTO);
         CustomerEntity customerEntity = customerDao.findCustomerEntityById(transactionDTO.getCustomer());
         transactionEntity.setCustomer(customerEntity);
@@ -63,9 +59,13 @@ public class TransactionServiceImpl implements TransactionService {
         addTransactionToCustomer(customerEntity, transactionEntity);
         addTransactionToProduct(listOfproduct, transactionEntity);
         return TransactionMapper.toTransactioDTO(transactionEntity);
-
-
     }
+
+    @Override
+    public List<TransactionDTO> findAllTransactions() {
+        return TransactionMapper.toTransactionTOList(transactionDao.findAll());
+    }
+
 
 
     @Override
@@ -79,11 +79,6 @@ public class TransactionServiceImpl implements TransactionService {
         removeTransactionFromProducts(transactionEntity, productEntities);
 
         transactionDao.deleteById(id);
-    }
-
-    @Override
-    public List<TransactionDTO> findAllTransactions() {
-        return TransactionMapper.toTransactionTOList(transactionDao.findAll());
     }
 
     @Override
@@ -125,6 +120,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         productDao.saveAll(products);
     }
+
 
 
     private void removeTransactionFromProducts(TransactionEntity transactionEntity, List<ProductEntity> productEntities) {

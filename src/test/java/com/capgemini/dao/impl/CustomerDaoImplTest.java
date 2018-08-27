@@ -41,11 +41,6 @@ public class CustomerDaoImplTest {
     @Autowired
     private TransactionService transactionService;
 
-    @Autowired
-    private ProductDao productDao;
-
-    @Autowired
-    private CustomerDao customerDao;
 
     @Test
     @Transactional

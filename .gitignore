@@ -1,3 +1,4 @@
+${env.BASE_DIR}
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 

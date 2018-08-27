@@ -51,6 +51,8 @@ public class TransactionMapper {
         }
         return transactionDTO;
     }
+
+
     public static List<TransactionDTO> toTransactionTOList(Iterable<TransactionEntity> transactions) {
         Iterator<TransactionEntity> it = transactions.iterator();
         List<TransactionDTO> transactionsTO = new LinkedList<>();
@@ -61,7 +63,6 @@ public class TransactionMapper {
 
         return transactionsTO;
     }
-
 
 
 

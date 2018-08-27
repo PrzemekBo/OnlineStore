@@ -1,11 +1,15 @@
 package com.capgemini.service.impl;
 
+import com.capgemini.dao.ProductDao;
+import com.capgemini.dao.TransactionDao;
 import com.capgemini.dto.CustomerDTO;
 import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.enums.Status;
+
 import com.capgemini.exception.TooManyTheSameProductException;
 import com.capgemini.service.CustomerService;
+
 import com.capgemini.service.ProductService;
 import com.capgemini.service.TransactionService;
 import org.junit.Test;
@@ -16,12 +20,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+
 
 
 @SpringBootTest(properties = "spring.profiles.active=hsql")
@@ -31,11 +37,17 @@ public class TransactionServiceImplTest {
     @Autowired
     private TransactionService transactionService;
 
+
+    @Autowired
+    private CustomerService customerService;
+
+
+
     @Autowired
     private ProductService productService;
 
     @Autowired
-    private CustomerService customerService;
+    private TransactionDao transactionDao;
 
 
     private static final Long PRICE_MORE_GREATER_THAN_7001=7001L;
@@ -44,6 +56,7 @@ public class TransactionServiceImplTest {
     @Test
     @Transactional
     public void shouldAddTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()
@@ -82,6 +95,7 @@ public class TransactionServiceImplTest {
         TransactionDTO transactionDTO = transactionService.findTransactionEntityById(newTransaction.getId());
 
 
+
         //then
         assertThat(transactionDTO.getId()).isEqualTo(transactionDTO.getId());
         assertThat(transactionDTO.getProducts().size()).isEqualTo(1);
@@ -94,49 +108,7 @@ public class TransactionServiceImplTest {
     }
 
 
-    @Test
-    @Transactional
-    public void shouldRemoveTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
 
-        //given
-        CustomerDTO customer = new CustomerDTO().builder()
-                .firstName("Adam")
-                .lastName("Kowalski")
-                .email("adam.kowalski@wp.pl")
-                .phoneNumber("433545343")
-                .address("Warszawa")
-                .birthDate(new Date())
-                .build();
-        CustomerDTO newCustomer = customerService.addCustomer(customer);
-
-        ProductDTO product = ProductDTO.builder()
-                .productName("Torba")
-                .price(5L)
-                .margin(10L)
-                .weight(10L)
-                .build();
-        ProductDTO newProduct = productService.addProduct(product);
-
-
-        List<Long> listOfProducts = new LinkedList<>();
-        listOfProducts.add(newProduct.getId());
-
-        TransactionDTO transaction = TransactionDTO.builder()
-                .transactionDate(new Date())
-                .status(Status.IN_DELIVERY)
-                .products(listOfProducts)
-                .purchasesNumber(listOfProducts.size())
-                .customer(newCustomer.getId())
-                .build();
-        TransactionDTO newTransaction = transactionService.addTransaction(transaction);
-
-
-        transactionService.removeTransaction(newTransaction.getId());
-        List<TransactionDTO> transactions = transactionService.findAllTransactions();
-
-        //then
-        assertThat(transactions.size()).isEqualTo(0);
-    }
 
 
     @Test
@@ -336,13 +308,54 @@ public class TransactionServiceImplTest {
 
     }
 
+
+    @Test
+    @Transactional
+    public void shouldRemoveTransaction() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
+
+        //given
+        CustomerDTO customer = new CustomerDTO().builder()
+                .firstName("Adam")
+                .lastName("Kowalski")
+                .email("adam.kowalski@wp.pl")
+                .phoneNumber("433545343")
+                .address("Warszawa")
+                .birthDate(new Date())
+                .build();
+        CustomerDTO newCustomer = customerService.addCustomer(customer);
+
+        ProductDTO product = ProductDTO.builder()
+                .productName("Torba")
+                .price(5L)
+                .margin(10L)
+                .weight(10L)
+                .build();
+        ProductDTO newProduct = productService.addProduct(product);
+
+
+        List<Long> listOfProducts = new LinkedList<>();
+        listOfProducts.add(newProduct.getId());
+
+        TransactionDTO transaction = TransactionDTO.builder()
+                .transactionDate(new Date())
+                .status(Status.IN_DELIVERY)
+                .products(listOfProducts)
+                .purchasesNumber(listOfProducts.size())
+                .customer(newCustomer.getId())
+                .build();
+        TransactionDTO newTransaction = transactionService.addTransaction(transaction);
+
+
+        transactionService.removeTransaction(newTransaction.getId());
+        List<TransactionDTO> transactions = transactionService.findAllTransactions();
+
+        //then
+        assertThat(transactions.size()).isEqualTo(0);
+    }
+
     @Test
     @Transactional
     public void shouldThromExceptionWhenCusomerBuyTooManyTheSameProduct() throws InvalidPropertiesFormatException, TooManyTheSameProductException {
-
-
-
-
 
         //given
         CustomerDTO customer = new CustomerDTO().builder()

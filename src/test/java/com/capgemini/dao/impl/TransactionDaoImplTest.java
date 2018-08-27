@@ -152,7 +152,7 @@ public class TransactionDaoImplTest {
 
         Long price = transactionDao.sumAllPriceOfTransactionsForCustomer(newCustomer.getId());
 
-        assertThat(price).isEqualTo(4000L);
+        assertThat(price).isEqualTo(8000L);
 
     }
 

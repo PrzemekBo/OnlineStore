@@ -4,8 +4,10 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.dto.TransactionDTO;
 import com.capgemini.exception.TooManyTheSameProductException;
 
+
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
+
 
 public interface TransactionService {
 
@@ -13,10 +15,9 @@ public interface TransactionService {
 
     TransactionDTO addTransaction(TransactionDTO transactionDTO) throws InvalidPropertiesFormatException, TooManyTheSameProductException;
 
-    void removeTransaction(Long id);
-
-
     List<TransactionDTO> findAllTransactions();
+
+    void removeTransaction(Long id);
 
     TransactionDTO updateTransaction(TransactionDTO transactionDTO);
 }
