@@ -3,6 +3,9 @@ package com.capgemini.mapper;
 import com.capgemini.dto.CustomerDTO;
 import com.capgemini.entity.CustomerEntity;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerMapper {
@@ -44,6 +47,17 @@ public class CustomerMapper {
             customerDTO.setTransactions(customerEntity.getTransactions().stream().map(t->t.getId()).collect(Collectors.toList()));
         }
         return customerDTO;
+    }
+
+
+    public static List<CustomerDTO> toClientTOList(Iterable<CustomerEntity> all) {
+        Iterator<CustomerEntity> it = all.iterator();
+        List<CustomerDTO> clientsTO = new LinkedList<>();
+        while (it.hasNext()) {
+            clientsTO.add(toCustomerDTO(it.next()));
+        }
+
+        return clientsTO;
     }
 
 }

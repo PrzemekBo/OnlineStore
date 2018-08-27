@@ -48,5 +48,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
+    @Override
+    public List<CustomerDTO> findThreeBestClientsInSomeTimePeriod(Date startDate, Date endDate) {
+        return CustomerMapper.toClientTOList(customerDao.findThreeBestClientsInSomeTimePeriod(startDate, endDate));
+    }
+
 
 }

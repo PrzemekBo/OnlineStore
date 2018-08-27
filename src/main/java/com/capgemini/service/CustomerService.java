@@ -3,6 +3,9 @@ package com.capgemini.service;
 import com.capgemini.dto.CustomerDTO;
 import com.capgemini.entity.CustomerEntity;
 
+import java.util.Date;
+import java.util.List;
+
 public interface CustomerService {
 
     CustomerDTO findCustomerEntityById(Long id);
@@ -12,6 +15,10 @@ public interface CustomerService {
     void removeCustomer(Long id);
 
     CustomerDTO updateCustomer(CustomerDTO customer);
+
+
+    List<CustomerDTO> findThreeBestClientsInSomeTimePeriod(Date startDate, Date endDate);
+
 
 
 }

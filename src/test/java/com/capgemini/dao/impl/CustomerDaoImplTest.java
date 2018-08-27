@@ -120,8 +120,8 @@ public class CustomerDaoImplTest {
         transactionService.addTransaction(transaction);
 
         //given
-        List<CustomerEntity> listCusomers = customerDao.findThreeBestClientsInSomeTimePeriod(new Date(100L), new Date(600L));
-        List<CustomerEntity> listCusomers2 = customerDao.findThreeBestClientsInSomeTimePeriod(new Date(500L), new Date(600L));
+        List<CustomerDTO> listCusomers = customerService.findThreeBestClientsInSomeTimePeriod(new Date(100L), new Date(600L));
+        List<CustomerDTO> listCusomers2 = customerService.findThreeBestClientsInSomeTimePeriod(new Date(500L), new Date(600L));
 
         //then
         assertThat(listCusomers.size()).isEqualTo(3);

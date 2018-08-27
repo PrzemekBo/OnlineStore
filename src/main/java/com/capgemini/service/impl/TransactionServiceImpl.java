@@ -1,6 +1,7 @@
 package com.capgemini.service.impl;
 
 
+import com.capgemini.criteria.TransactionSearchCriteria;
 import com.capgemini.dao.CustomerDao;
 import com.capgemini.dao.ProductDao;
 import com.capgemini.dao.TransactionDao;
@@ -8,14 +9,17 @@ import com.capgemini.dto.TransactionDTO;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.ProductEntity;
 import com.capgemini.entity.TransactionEntity;
+import com.capgemini.enums.Status;
 import com.capgemini.exception.ToLargeWeightException;
 import com.capgemini.exception.TooManyTheSameProductException;
+import com.capgemini.exception.TransactionSearchCriteriaException;
 import com.capgemini.mapper.TransactionMapper;
 import com.capgemini.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,6 +92,31 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
         TransactionEntity transactionEntity = transactionDao.save(TransactionMapper.toTransactionEntity(transactionDTO));
         return TransactionMapper.toTransactioDTO(transactionEntity);
+    }
+
+    @Override
+    public Long calculateProfitInSomeTimePeriod(Date startDate, Date endDate) {
+        return transactionDao.calculateProfitInSomeTimePeriod(startDate, endDate);
+    }
+
+    @Override
+    public Long sumAllPriceOfTransactionsForCustomer(Long id) {
+        return transactionDao.sumAllPriceOfTransactionsForCustomer(id);
+    }
+
+    @Override
+    public Long calculateAllPriceOfTransactionsForCustomerByStatus(Long id, Status status) {
+        return transactionDao.calculateAllPriceOfTransactionsForCustomerByStatus(id,status);
+    }
+
+    @Override
+    public Long calculateAllPriceOfTransactionsForAllCustomersByStatus(Status status) {
+        return transactionDao.calculateAllPriceOfTransactionsForAllCustomersByStatus(status);
+    }
+
+    @Override
+    public List<TransactionEntity> searchTransactionByFourCriteria(TransactionSearchCriteria transactionSearchCriteria) throws TransactionSearchCriteriaException {
+        return transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
     }
 
     private void addTransactionToCustomer(CustomerEntity customerEntity, TransactionEntity transactionEntity) {
@@ -176,7 +205,6 @@ public class TransactionServiceImpl implements TransactionService {
                 }
 
             }
-
 
 
     }

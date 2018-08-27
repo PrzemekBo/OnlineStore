@@ -100,7 +100,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        Long profitInPeriodTime = transactionDao.calculateProfitInSomeTimePeriod(new Date(START_DATE), new Date(END_DATE));
+        Long profitInPeriodTime = transactionService.calculateProfitInSomeTimePeriod(new Date(START_DATE), new Date(END_DATE));
 
         assertThat(profitInPeriodTime).isEqualTo(PROFIT);
 
@@ -154,7 +154,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
         TransactionDTO newTransaction2 = transactionService.addTransaction(transaction);
 
-        Long price = transactionDao.sumAllPriceOfTransactionsForCustomer(newCustomer.getId());
+        Long price = transactionService.sumAllPriceOfTransactionsForCustomer(newCustomer.getId());
 
         assertThat(price).isEqualTo(8000L);
 
@@ -208,7 +208,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        Long cost = transactionDao.calculateAllPriceOfTransactionsForCustomerByStatus(newCustomer.getId(), IN_DELIVERY_STATUS);
+        Long cost = transactionService.calculateAllPriceOfTransactionsForCustomerByStatus(newCustomer.getId(), IN_DELIVERY_STATUS);
 
 
         assertThat(cost).isEqualTo(4000L);
@@ -267,7 +267,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        Long cost = transactionDao.calculateAllPriceOfTransactionsForCustomerByStatus(newCustomer.getId(), IN_DELIVERY_STATUS);
+        Long cost = transactionService.calculateAllPriceOfTransactionsForCustomerByStatus(newCustomer.getId(), IN_DELIVERY_STATUS);
 
 
         assertThat(cost).isNull();
@@ -341,7 +341,7 @@ public class TransactionDaoImplTest {
         TransactionDTO newTransaction2 = transactionService.addTransaction(transaction);
 
 
-        Long cost = transactionDao.calculateAllPriceOfTransactionsForAllCustomersByStatus(IN_DELIVERY_STATUS);
+        Long cost = transactionService.calculateAllPriceOfTransactionsForAllCustomersByStatus(IN_DELIVERY_STATUS);
 
         assertThat(cost).isEqualTo(8000L);
     }
@@ -389,7 +389,7 @@ public class TransactionDaoImplTest {
         transactionSearchCriteria.setDateTo(new Date(2000L));
         transactionSearchCriteria.setProductId(newProduct.getId());
         transactionSearchCriteria.setTrnsactionPrice(2000L);
-        List<TransactionEntity> transactions = transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
+        List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
 
 
         assertThat(transactions.size()).isEqualTo(1);
@@ -437,7 +437,7 @@ public class TransactionDaoImplTest {
 
         TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
-        List<TransactionEntity> transactions = transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
+        List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
 
 
         assertThat(transactions.size()).isEqualTo(1);
@@ -486,7 +486,7 @@ public class TransactionDaoImplTest {
         TransactionSearchCriteria transactionSearchCriteria= new TransactionSearchCriteria();
         transactionSearchCriteria.setEmail(TEST_EMAIL);
         transactionSearchCriteria.setTrnsactionPrice(2000L);
-        List<TransactionEntity> transactions = transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
+        List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
 
 
         assertThat(transactions.size()).isEqualTo(1);
@@ -537,7 +537,7 @@ public class TransactionDaoImplTest {
         transactionSearchCriteria.setDateFrom(new Date(500L));
         transactionSearchCriteria.setDateTo(new Date(2000L));
         transactionSearchCriteria.setTrnsactionPrice(2000L);
-        List<TransactionEntity> transactions = transactionDao.searchTransactionByFourCriteria(transactionSearchCriteria);
+        List<TransactionEntity> transactions = transactionService.searchTransactionByFourCriteria(transactionSearchCriteria);
 
 
         assertThat(transactions.size()).isEqualTo(1);

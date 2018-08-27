@@ -6,9 +6,12 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.entity.ProductEntity;
 import com.capgemini.mapper.ProductMapper;
 import com.capgemini.service.ProductService;
+import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 @Service
@@ -43,4 +46,12 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity= productDao.save(ProductMapper.toProductEntity(product));
         return ProductMapper.toProductDTO(productEntity);
     }
+
+    @Override
+    public List<ProductDTO> findTenBestSellers() {
+        return ProductMapper.toProductTOList(productDao.findTenBestSellers());
+
+    }
+
+
 }

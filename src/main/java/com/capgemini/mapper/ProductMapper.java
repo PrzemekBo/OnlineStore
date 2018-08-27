@@ -5,6 +5,8 @@ import com.capgemini.dto.ProductDTO;
 import com.capgemini.entity.CustomerEntity;
 import com.capgemini.entity.ProductEntity;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,5 +46,17 @@ public class ProductMapper {
             productDTO.setTransactions(productEntity.getTransactions().stream().map(t->t.getId()).collect(Collectors.toList()));
         }
         return productDTO;
+    }
+
+
+
+    public static List<ProductDTO> toProductTOList(Iterable<ProductEntity> products) {
+        Iterator<ProductEntity> it = products.iterator();
+        List<ProductDTO> productsDTO = new LinkedList<>();
+        while (it.hasNext()) {
+            productsDTO.add(toProductDTO(it.next()));
+        }
+
+        return productsDTO;
     }
 }

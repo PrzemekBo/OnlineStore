@@ -107,7 +107,7 @@ public class ProductDaoImplTest {
         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
         transaction.setProducts(productsList);
 
-        List<ProductEntity> items = productDao.findTenBestSellers();
+        List<ProductDTO> items = productService.findTenBestSellers();
 
         assertThat(items.size()).isEqualTo(10);
 
