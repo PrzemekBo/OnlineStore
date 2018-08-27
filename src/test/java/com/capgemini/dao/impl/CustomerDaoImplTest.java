@@ -41,6 +41,9 @@ public class CustomerDaoImplTest {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    CustomerDao customerDao;
+
 
     @Test
     @Transactional
@@ -62,13 +65,17 @@ public class CustomerDaoImplTest {
         CustomerDTO newCustomer4 = customerService.addCustomer(customer);
 
 
+
+
+
         ProductDTO product = ProductDTO.builder()
-                .productName("Torba")
+                .productName("Plecak")
                 .price(100L)
                 .margin(2L)
                 .weight(2L)
                 .build();
         ProductDTO newProduct = productService.addProduct(product);
+
 
 
         ProductDTO product2 = ProductDTO.builder()
@@ -91,24 +98,47 @@ public class CustomerDaoImplTest {
                 .purchasesNumber(productsList.size())
                 .customer(newCustomer.getId())
                 .build();
-         TransactionDTO newTransaction = transactionService.addTransaction(transaction);
 
 
-        TransactionDTO transaction2 = TransactionDTO.builder()
-                .transactionDate(new Date(300L))
-                .status(Status.IN_DELIVERY)
-                .products(productsList)
-                .purchasesNumber(productsList.size())
-                .customer(newCustomer.getId())
-                .build();
-        TransactionDTO newTransaction2 = transactionService.addTransaction(transaction);
+        transaction.setTransactionDate(new Date(300L));
+        transaction.setCustomer(newCustomer.getId());
+        transactionService.addTransaction(transaction);
+
+
+        transaction.setTransactionDate(new Date(300L));
+        transaction.setCustomer(newCustomer2.getId());
+        transactionService.addTransaction(transaction);
+
+
+        transaction.setTransactionDate(new Date(300L));
+        transaction.setCustomer(newCustomer3.getId());
+        transactionService.addTransaction(transaction);
+
+        transaction.setTransactionDate(new Date(550L));
+        transaction.setCustomer(newCustomer3.getId());
+        transactionService.addTransaction(transaction);
+
+        //given
+        List<CustomerEntity> listCusomers = customerDao.findThreeBestClientsInSomeTimePeriod(new Date(100L), new Date(600L));
+        List<CustomerEntity> listCusomers2 = customerDao.findThreeBestClientsInSomeTimePeriod(new Date(500L), new Date(600L));
+
+        //then
+        assertThat(listCusomers.size()).isEqualTo(3);
+        assertThat(listCusomers.get(0).getId()).isEqualTo(newCustomer3.getId());
+
+        assertThat(listCusomers2.size()).isEqualTo(1);
+        assertThat(listCusomers2.get(0).getId()).isEqualTo(newCustomer3.getId());
+        //assertThat(listCusomers.get(0).getId()).isEqualTo(newCustomer.getId());
 
 
 
 
 
 
-      /*  product.setPrice(500L);
+
+
+/*
+        product.setPrice(500L);
         ProductDTO newProduct2 = productService.addProduct(product);
 
 
@@ -168,7 +198,9 @@ public class CustomerDaoImplTest {
         assertThat(clients3.size()).isEqualTo(3);
         assertThat(clients3.get(0).getId()).isEqualTo(newCustomer4.getId());
         assertThat(clients0.size()).isEqualTo(0);
+
 */
+
 
     }
 }

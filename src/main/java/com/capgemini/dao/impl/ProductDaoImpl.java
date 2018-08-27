@@ -34,6 +34,10 @@ public class ProductDaoImpl implements ProductDaoCustom {
         product = QProductEntity.productEntity;
     }
 
+    /**
+     *Finds 10 best-selling items
+     * @return List of products
+     */
     @Override
     public List<ProductEntity> findTenBestSellers() {
         NumberPath<Long> result = Expressions.numberPath(Long.class, "c");
@@ -50,15 +54,20 @@ public class ProductDaoImpl implements ProductDaoCustom {
         return products;
     }
 
+
+    /**
+     *Finds items with the statute IN_IMPLEMENTATION
+     * @return Found products
+     */
     @Override
-    public List<Tuple> findItemsInInDeliveryStatus() {
+    public List<Tuple> findItemsInInImplementationStatus() {
         NumberPath<Long> count = Expressions.numberPath(Long.class, "c");
         return queryFactory.selectFrom(transaction)
                 .select(product.productName, product.id.count().as(count))
                 .join(transaction.products, product)
-                .where(transaction.status.eq(Status.IN_DELIVERY))
+                .where(transaction.status.eq(Status.IN_IMPLEMENTATION))
                 .groupBy(product.id)
                 .fetch();
-    }
 
+    }
 }

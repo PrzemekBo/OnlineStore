@@ -8,6 +8,6 @@ public interface ProductDaoCustom {
 
     List<ProductEntity> findTenBestSellers();
 
-    List<Tuple> findItemsInInDeliveryStatus();
+    List<Tuple> findItemsInInImplementationStatus();
 
 }

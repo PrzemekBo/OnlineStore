@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CustomerDaoCustom {
 
+ //   List<CustomerEntity> findClientsByEmail(String email);
+
 
     List<CustomerEntity> findThreeBestClientsInSomeTimePeriod(Date startDate, Date endDate);
 

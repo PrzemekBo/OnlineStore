@@ -1,5 +1,6 @@
 package com.capgemini.service.impl;
 
+
 import com.capgemini.dao.CustomerDao;
 import com.capgemini.dao.ProductDao;
 import com.capgemini.dao.TransactionDao;
@@ -12,12 +13,13 @@ import com.capgemini.mapper.TransactionMapper;
 import com.capgemini.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
 
-
+@Transactional
 @Service
 public class TransactionServiceImpl implements TransactionService {
 

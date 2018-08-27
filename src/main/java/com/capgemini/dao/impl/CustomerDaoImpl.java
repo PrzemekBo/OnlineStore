@@ -40,6 +40,12 @@ public class CustomerDaoImpl implements CustomerDaoCustom {
     }
 
 
+    /**
+     * Finds three customers who have spent the most money over a period of time.
+     * @param startDate The beginning of the period from which we are looking for cstomers
+     * @param endDate The end of the period from which we are looking for customers
+     * @return List of customers
+     */
     @Override
     public List<CustomerEntity> findThreeBestClientsInSomeTimePeriod(Date startDate, Date endDate) {
 

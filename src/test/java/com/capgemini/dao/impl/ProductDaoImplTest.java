@@ -44,7 +44,7 @@ public class ProductDaoImplTest {
     private ProductDao productDao;
 
 
-    private static final Status IN_DELIVERY_STATUS=Status.IN_DELIVERY;
+    private static final Status IN_IMPLEMENTATION_STATUS=Status.IN_IMPLEMENTATION;
 
 
     @Test
@@ -98,7 +98,7 @@ public class ProductDaoImplTest {
 
         TransactionDTO transaction = TransactionDTO.builder()
                 .transactionDate(new Date())
-                .status(IN_DELIVERY_STATUS)
+                .status(IN_IMPLEMENTATION_STATUS)
                 .products(productsList)
                 .purchasesNumber(productsList.size())
                 .customer(newCustomer.getId())
@@ -118,7 +118,7 @@ public class ProductDaoImplTest {
 
     @Test
     @Transactional
-    public void shouldFindItemsInInDeliveryStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
+    public void shouldFindItemsInInplementationStatus() throws TooManyTheSameProductException, InvalidPropertiesFormatException {
 
 
         //given
@@ -166,11 +166,11 @@ public class ProductDaoImplTest {
 
 
         transaction.setCustomer(newCustomer2.getId());
-        transaction.setStatus(IN_DELIVERY_STATUS);
+        transaction.setStatus(IN_IMPLEMENTATION_STATUS);
         transactionService.addTransaction(transaction);
 
         //when
-        List<Tuple> items = productDao.findItemsInInDeliveryStatus();
+        List<Tuple> items = productDao.findItemsInInImplementationStatus();
 
         //then
         assertThat(items.size()).isEqualTo(2);
